@@ -80,7 +80,7 @@ object SbtAutoprefixer extends AutoPlugin {
 
       val (outputFiles, ()) = incremental.syncIncremental(streams.value.cacheDirectory / "run", groupings) { modifiedGroupings: Seq[(Seq[(File, String)], String)] =>
          if (modifiedGroupings.nonEmpty) {
-            streams.value.log.info(s"Optimizing ${modifiedGroupings.size} CSS(s) with Autoprefixer")
+            streams.value.log.info(s"Optimizing ${modifiedGroupings.size} CSS file(s) with Autoprefixer")
 
             val nodeModulePaths = (nodeModuleDirectories in Plugin).value.map(_.getPath)
             val cli = (webJarsNodeModulesDirectory in Plugin).value / "postcss-cli" / "bin" / "postcss"
