@@ -1,5 +1,7 @@
 package nl.semlab.sbt.autoprefixer
 
+import java.nio.charset.Charset
+
 import com.typesafe.sbt.jse.SbtJsEngine
 import com.typesafe.sbt.jse.SbtJsTask
 import com.typesafe.sbt.web.PathMapping
@@ -9,6 +11,7 @@ import com.typesafe.sbt.web.incremental.OpFailure
 import com.typesafe.sbt.web.incremental.OpInputHash
 import com.typesafe.sbt.web.incremental.OpInputHasher
 import com.typesafe.sbt.web.incremental.OpSuccess
+import com.typesafe.sbt.web.js.JS
 import com.typesafe.sbt.web.pipeline.Pipeline
 import sbt.Keys._
 import sbt._
@@ -18,8 +21,10 @@ object Import {
    val autoprefixer = TaskKey[Pipeline.Stage]("autoprefixer", "Autoprefixes CSS files.")
 
    object AutoprefixerKeys {
-      val buildDir = SettingKey[File]("uglify-build-dir", "Where autoprefixer will write to.")
-      val dir = SettingKey[File]("uglify-input-dir", "Where autoprefixer will read from. It likes to have all the files in one place.")
+      val browsers = SettingKey[JS.Array]("autoprefixer-browsers", "Which browsers autoprefixer will support.")
+      val buildDir = SettingKey[File]("autoprefixer-build-dir", "Where autoprefixer will write to.")
+      val config = TaskKey[JS.Object]("autoprefixer-config", "The config contents.")
+      val dir = SettingKey[File]("autoprefixer-input-dir", "Where autoprefixer will read from. It likes to have all the files in one place.")
    }
 }
 
@@ -40,7 +45,9 @@ object SbtAutoprefixer extends AutoPlugin {
 
    override def projectSettings = Seq(
       autoprefixer := autoPrefixFiles.dependsOn(webJarsNodeModules in Plugin).value,
+      browsers := JS.Array("> 1% in NL", "last 2 versions", "Firefox ESR"),
       buildDir := (resourceManaged in autoprefixer).value / "build",
+      config := getConfig.value,
       dir := (resourceManaged in autoprefixer).value / "app",
       excludeFilter in autoprefixer := new SimpleFileFilter(file => file.relativeTo(baseDirectory.value).get.getPath contains "lib") || HiddenFileFilter,
       includeFilter in autoprefixer := "*.css",
@@ -52,6 +59,14 @@ object SbtAutoprefixer extends AutoPlugin {
       val (pfx, ext) = if (exti == -1) (file, "")
       else file.splitAt(exti)
       pfx + ".min" + ext
+   }
+
+   private def getConfig: Def.Initialize[Task[JS.Object]] = Def.task {
+      JS.Object(
+         "autoprefixer" -> JS.Object(
+            "browsers" -> browsers.value
+         )
+      )
    }
 
    // The meat of the program, does all the heavy lifting
@@ -69,7 +84,12 @@ object SbtAutoprefixer extends AutoPlugin {
       val appInputMappings = optimizerMappings.map(p => dir.value / p._2 -> p._2)
       val groupings = appInputMappings.map(fp => (Seq(fp), dotMin(fp._2)))
 
+      val targetBuildProfileFile = (resourceManaged in autoprefixer).value / "config.json"
+      IO.write(targetBuildProfileFile, config.value.js, Charset.forName("UTF-8"))
+
       val options = Seq(
+         (browsers in autoprefixer).value,
+         (config in autoprefixer).value,
          (excludeFilter in autoprefixer).value,
          (includeFilter in autoprefixer).value,
          (resourceManaged in autoprefixer).value
@@ -95,7 +115,7 @@ object SbtAutoprefixer extends AutoPlugin {
                (timeoutPerSource in autoprefixer).value
             )
 
-            val prefixerArgs = Seq("--use", "autoprefixer")
+            val prefixerArgs = Seq("--use", "autoprefixer", "-c", targetBuildProfileFile.getAbsolutePath)
 
             (modifiedGroupings.map { grouping =>
                val (inputMappings, outputPath) = grouping
