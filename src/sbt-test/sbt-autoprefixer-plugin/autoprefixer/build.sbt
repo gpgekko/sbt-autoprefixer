@@ -12,12 +12,3 @@ checkCSSFileContents := {
     sys.error(s"Unexpected contents: $contents")
   }
 }
-
-val checkSourceMapFileContents = taskKey[Unit]("check that source map contents are correct")
-
-checkSourceMapFileContents := {
-  val contents = IO.read(file("target/web/stage/css/test.css.map"))
-  if (!contents.contains("test.css")) {
-    sys.error(s"Unexpected contents: $contents")
-  }
-}

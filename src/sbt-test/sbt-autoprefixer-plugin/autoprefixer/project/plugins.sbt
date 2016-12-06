@@ -1,7 +1,7 @@
-addSbtPlugin("com.github.gpgekko" % "sbt-autoprefixer" % sys.props("project.version"))
-
-resolvers ++= Seq(
-  Resolver.url("sbt snapshot plugins", url("http://repo.scala-sbt.org/scalasbt/sbt-plugin-snapshots"))(Resolver.ivyStylePatterns),
-  Resolver.sonatypeRepo("snapshots"),
-  "Typesafe Snapshots Repository" at "http://repo.typesafe.com/typesafe/snapshots/"
-)
+{
+  val pluginVersion = System.getProperty("plugin.version")
+  if(pluginVersion == null)
+    throw new RuntimeException("""|The system property 'plugin.version' is not defined.
+                                  |Specify this property using the scriptedLaunchOpts -D.""".stripMargin)
+  else addSbtPlugin("com.github.gpgekko" % "sbt-autoprefixer" % pluginVersion)
+}
