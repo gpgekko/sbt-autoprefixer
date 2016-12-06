@@ -11,7 +11,6 @@ organizationHomepage := Some(new URL("https://github.com/gpgekko"))
 name := "sbt-autoprefixer"
 homepage := Some(new URL("https://github.com/gpgekko/sbt-autoprefixer"))
 startYear := Some(2016)
-version := "1.1.1"
 
 
 // Scala version to use.
