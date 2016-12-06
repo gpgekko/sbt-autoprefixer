@@ -5,10 +5,11 @@ sbtPlugin := true
 
 // Basic application information.
 // ---------------------------------------
-organization := "nl.semlab.sbt"
-organizationName := "Semlab"
-organizationHomepage := Some(new URL("https://www.semlab.nl"))
+organization := "com.github.gpgekko"
+organizationName := "gpgekko"
+organizationHomepage := Some(new URL("https://github.com/gpgekko"))
 name := "sbt-autoprefixer"
+homepage := Some(new URL("https://github.com/gpgekko/sbt-autoprefixer"))
 startYear := Some(2016)
 version := "1.1.1"
 
