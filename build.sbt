@@ -10,7 +10,6 @@ organizationName := "Semlab"
 organizationHomepage := Some(new URL("https://www.semlab.nl"))
 name := "sbt-autoprefixer"
 startYear := Some(2016)
-version := "1.1.2"
 
 
 // Scala version to use.
