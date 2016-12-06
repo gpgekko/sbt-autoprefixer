@@ -7,14 +7,14 @@ post-process CSS and add vendor prefixes to rules by [Can I Use](http://caniuse.
 To use the latest version from Github, add the following to the `project/plugins.sbt` of your project:
 
 ```scala
-    lazy val sbtAutoprefixer = uri("git://github.com/gpgekko/sbt-autoprefixer")
-    lazy val root = project.in(file(".")).dependsOn(sbtAutoprefixer)
+lazy val sbtAutoprefixer = uri("git://github.com/gpgekko/sbt-autoprefixer")
+lazy val root = project.in(file(".")).dependsOn(sbtAutoprefixer)
 ```
 
 Your project's build file also needs to enable sbt-web plugins. For example with `build.sbt`:
 
 ```scala
-    lazy val root = (project in file(".")).enablePlugins(SbtWeb)
+lazy val root = (project in file(".")).enablePlugins(SbtWeb)
 ```
 
 Declare the execution order of the pipeline:
