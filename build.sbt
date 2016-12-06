@@ -34,3 +34,18 @@ overrideBuildResolvers := true
 // Plugins.
 // ---------------------------------------
 addSbtPlugin("com.typesafe.sbt" % "sbt-js-engine" % "1.1.4")
+
+
+// Scripted.
+// ---------------------------------------
+ScriptedPlugin.scriptedSettings
+scriptedLaunchOpts := { scriptedLaunchOpts.value ++
+                        Seq("-Xmx1024M", "-Dplugin.version=" + version.value)
+}
+scriptedBufferLog := false
+
+
+// Bintray settings.
+// ---------------------------------------
+publishMavenStyle := false
+bintrayOrganization in bintray := None
