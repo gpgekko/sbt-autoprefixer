@@ -38,9 +38,7 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-js-engine" % "1.2.1")
 // Scripted.
 // ---------------------------------------
 ScriptedPlugin.scriptedSettings
-scriptedLaunchOpts := { scriptedLaunchOpts.value ++
-                        Seq("-Xmx1024M", "-Dplugin.version=" + version.value)
-}
+scriptedLaunchOpts ++= Seq("-Xmx1024M", "-Dplugin.version=" + version.value)
 scriptedBufferLog := false
 
 
