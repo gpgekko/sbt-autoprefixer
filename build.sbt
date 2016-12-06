@@ -26,10 +26,6 @@ libraryDependencies ++= Seq(
    "org.webjars.npm" % "semver" % "5.3.0"
 )
 
-// Tell SBT to use the override the default resolver settings.
-// ---------------------------------------
-overrideBuildResolvers := true
-
 
 // Plugins.
 // ---------------------------------------
