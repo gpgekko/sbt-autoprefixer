@@ -3,7 +3,7 @@ import JsEngineKeys._
 
 lazy val root = (project in file(".")).enablePlugins(SbtWeb)
 
-engineType in autoprefixer := JsEngineKeys.EngineType.Node
+engineType in autoprefixer := EngineType.Node
 
 pipelineStages := Seq(autoprefixer)
 
