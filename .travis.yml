@@ -1,5 +1,5 @@
 before_install:
- - node_js install 6
+ - nvm install node
 
 jdk: oraclejdk8
 
