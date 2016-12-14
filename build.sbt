@@ -16,7 +16,7 @@ scalaVersion := "2.10.6"
 // Library dependencies.
 // ---------------------------------------
 libraryDependencies ++= Seq(
-   "org.webjars.npm" % "autoprefixer" % "6.4.0",
+   "org.webjars.npm" % "autoprefixer" % "6.5.3",
    "org.webjars.npm" % "postcss-cli" % "2.6.0",
    "org.webjars.npm" % "semver" % "5.3.0"
 )
