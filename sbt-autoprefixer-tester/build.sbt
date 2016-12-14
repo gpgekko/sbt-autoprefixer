@@ -6,3 +6,5 @@ lazy val root = (project in file(".")).enablePlugins(SbtWeb)
 JsEngineKeys.engineType := JsEngineKeys.EngineType.Node
 
 pipelineStages := Seq(autoprefixer)
+
+browsers := JS.Array("safari 6")
