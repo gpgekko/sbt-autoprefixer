@@ -1,6 +1,8 @@
 sbt-autoprefixer
 ================
 
+[![Build Status](https://travis-ci.org/gpgekko/sbt-autoprefixer.svg?branch=master)](https://travis-ci.org/gpgekko/sbt-autoprefixer)
+
 [sbt-web](https://github.com/sbt/sbt-web) plugin that uses [postcss-cli](https://github.com/postcss/postcss-cli) to run [Autoprefixer](https://github.com/postcss/autoprefixer) to 
 post-process CSS and add vendor prefixes to rules by [Can I Use](http://caniuse.com).
 
