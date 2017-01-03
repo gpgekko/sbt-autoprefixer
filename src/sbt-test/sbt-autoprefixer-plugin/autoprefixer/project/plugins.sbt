@@ -1,4 +1,4 @@
-addSbtPlugin("com.github.gpgekko" % "sbt-autoprefixer" % sys.props("project.version"))
+addSbtPlugin("nl.semlab.sbt" % "sbt-autoprefixer" % sys.props("project.version"))
 
 resolvers ++= Seq(
   Resolver.url("sbt snapshot plugins", url("http://repo.scala-sbt.org/scalasbt/sbt-plugin-snapshots"))(Resolver.ivyStylePatterns),
