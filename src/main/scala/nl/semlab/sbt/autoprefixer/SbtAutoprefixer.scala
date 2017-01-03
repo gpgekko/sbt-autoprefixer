@@ -25,6 +25,7 @@ object Import {
       val buildDir = SettingKey[File]("autoprefixer-build-dir", "Where autoprefixer will write to.")
       val config = TaskKey[JS.Object]("autoprefixer-config", "The config contents.")
       val dir = SettingKey[File]("autoprefixer-input-dir", "Where autoprefixer will read from. It likes to have all the files in one place.")
+      val overwriteOriginal = SettingKey[Boolean]("autoprefixer-overwrite", "If autoprefixer should overwrite the original files.")
    }
 }
 
@@ -51,13 +52,13 @@ object SbtAutoprefixer extends AutoPlugin {
       dir := (resourceManaged in autoprefixer).value / "app",
       excludeFilter in autoprefixer := new SimpleFileFilter(file => file.relativeTo(baseDirectory.value).get.getPath contains "lib") || HiddenFileFilter,
       includeFilter in autoprefixer := "*.css",
+      overwriteOriginal := true,
       resourceManaged in autoprefixer := webTarget.value / autoprefixer.key.label
    )
 
    private def dotMin(file: String): String = {
       val exti = file.lastIndexOf('.')
-      val (pfx, ext) = if (exti == -1) (file, "")
-      else file.splitAt(exti)
+      val (pfx, ext) = if (exti == -1) (file, "") else file.splitAt(exti)
       pfx + ".min" + ext
    }
 
@@ -82,7 +83,13 @@ object SbtAutoprefixer extends AutoPlugin {
       )
 
       val appInputMappings = optimizerMappings.map(p => dir.value / p._2 -> p._2)
-      val groupings = appInputMappings.map(fp => (Seq(fp), dotMin(fp._2)))
+      val groupings = appInputMappings.map(fp => {
+         if(overwriteOriginal.value) {
+            (Seq(fp), fp._2)
+         } else {
+            (Seq(fp), dotMin(fp._2))
+         }
+      })
 
       val targetBuildProfileFile = (resourceManaged in autoprefixer).value / "config.json"
       IO.write(targetBuildProfileFile, config.value.js, Charset.forName("UTF-8"))
@@ -92,6 +99,7 @@ object SbtAutoprefixer extends AutoPlugin {
          (config in autoprefixer).value,
          (excludeFilter in autoprefixer).value,
          (includeFilter in autoprefixer).value,
+         (overwriteOriginal in autoprefixer).value,
          (resourceManaged in autoprefixer).value
       ).mkString("|")
 
