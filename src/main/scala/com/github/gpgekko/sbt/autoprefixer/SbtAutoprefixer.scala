@@ -154,6 +154,6 @@ object SbtAutoprefixer extends AutoPlugin {
          }
       }
 
-      SbtWeb.deduplicateMappings((mappings.toSet ++ outputFiles.pair(relativeTo(buildDir.value))).toSeq, Seq(SbtWeb.selectFileFrom((buildDir in autoprefixer).value)))
+      (mappings.toSet ++ outputFiles.pair(relativeTo(buildDir.value))).toSeq
    }
 }
