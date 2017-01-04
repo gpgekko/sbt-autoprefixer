@@ -49,6 +49,7 @@ object SbtAutoprefixer extends AutoPlugin {
       browsers := JS.Array("> 1% in NL", "last 2 versions", "Firefox ESR"),
       buildDir := (resourceManaged in autoprefixer).value / "build",
       config := getConfig.value,
+      deduplicators += SbtWeb.selectFileFrom((buildDir in autoprefixer).value),
       dir := (resourceManaged in autoprefixer).value / "app",
       excludeFilter in autoprefixer := new SimpleFileFilter(file => file.relativeTo(baseDirectory.value).get.getPath contains "lib") || HiddenFileFilter,
       includeFilter in autoprefixer := "*.css",
@@ -131,7 +132,7 @@ object SbtAutoprefixer extends AutoPlugin {
                val inputFiles = inputMappings.map(_._1)
                val inputFileArgs = inputFiles.map(_.getPath)
 
-               val outputFile = dir.value / outputPath
+               val outputFile = buildDir.value / outputPath
                val outputFileArgs = Seq(
                   "--output",
                   outputFile.getPath
@@ -153,6 +154,6 @@ object SbtAutoprefixer extends AutoPlugin {
          }
       }
 
-      (mappings.toSet ++ outputFiles.pair(relativeTo(dir.value))).toSeq
+      (mappings.toSet ++ outputFiles.pair(relativeTo(buildDir.value))).toSeq
    }
 }
