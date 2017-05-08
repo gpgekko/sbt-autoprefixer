@@ -26,6 +26,8 @@ libraryDependencies ++= Seq(
    "org.webjars.npm" % "semver" % "5.3.0"
 )
 
+dependencyOverrides += "org.webjars.npm" % "block-stream" % "0.0.9"
+
 
 // Plugins.
 // ---------------------------------------
