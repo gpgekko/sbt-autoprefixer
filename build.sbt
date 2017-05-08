@@ -29,7 +29,7 @@ libraryDependencies ++= Seq(
 
 // Plugins.
 // ---------------------------------------
-addSbtPlugin("com.typesafe.sbt" % "sbt-js-engine" % "1.1.4")
+addSbtPlugin("com.typesafe.sbt" % "sbt-js-engine" % "1.2.0")
 
 
 // Scripted.
