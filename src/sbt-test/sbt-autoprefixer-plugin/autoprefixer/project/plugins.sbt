@@ -5,3 +5,5 @@ resolvers ++= Seq(
   Resolver.sonatypeRepo("snapshots"),
   "Typesafe Snapshots Repository" at "http://repo.typesafe.com/typesafe/snapshots/"
 )
+
+dependencyOverrides += "org.webjars.npm" % "semver" % "5.3.0"
