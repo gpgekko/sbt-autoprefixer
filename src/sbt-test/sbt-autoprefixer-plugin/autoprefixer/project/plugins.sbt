@@ -5,3 +5,5 @@
                                   |Specify this property using the scriptedLaunchOpts -D.""".stripMargin)
   else addSbtPlugin("com.github.gpgekko" % "sbt-autoprefixer" % pluginVersion)
 }
+
+dependencyOverrides += "org.webjars.npm" % "block-stream" % "0.0.9"
