@@ -32,7 +32,7 @@ overrideBuildResolvers := true
 
 // Plugins.
 // ---------------------------------------
-addSbtPlugin("com.typesafe.sbt" % "sbt-js-engine" % "1.2.0")
+addSbtPlugin("com.typesafe.sbt" % "sbt-js-engine" % "1.2.1")
 
 
 // Nexus location.
