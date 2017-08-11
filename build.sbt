@@ -21,9 +21,11 @@ scalaVersion := "2.10.6"
 // ---------------------------------------
 libraryDependencies ++= Seq(
    "org.webjars.npm" % "autoprefixer" % "6.7.7",
-   "org.webjars.npm" % "postcss-cli" % "2.6.0",
-   "org.webjars.npm" % "semver" % "5.3.0"
+   "org.webjars.npm" % "postcss-cli" % "2.6.0"
 )
+
+dependencyOverrides += "org.webjars.npm" % "semver" % "5.3.0"
+dependencyOverrides += "org.webjars.npm" % "block-stream" % "0.0.9"
 
 
 // Plugins.
