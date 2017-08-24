@@ -30,13 +30,10 @@ libraryDependencies ++= Seq(
 dependencyOverrides += "org.webjars.npm" % "semver" % "5.3.0"
 dependencyOverrides += "org.webjars.npm" % "block-stream" % "0.0.9"
 
-dependencyOverrides += "org.webjars.npm" % "semver" % "5.3.0"
-dependencyOverrides += "org.webjars.npm" % "block-stream" % "0.0.9"
-
 
 // Plugins.
 // ---------------------------------------
-addSbtPlugin("com.typesafe.sbt" % "sbt-js-engine" % "1.2.1")
+addSbtPlugin("com.typesafe.sbt" % "sbt-js-engine" % "1.2.2")
 
 
 // Scripted.
