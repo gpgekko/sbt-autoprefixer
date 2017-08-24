@@ -30,7 +30,7 @@ dependencyOverrides += "org.webjars.npm" % "block-stream" % "0.0.9"
 
 // Plugins.
 // ---------------------------------------
-addSbtPlugin("com.typesafe.sbt" % "sbt-js-engine" % "1.2.1")
+addSbtPlugin("com.typesafe.sbt" % "sbt-js-engine" % "1.2.2")
 
 
 // Nexus location.
