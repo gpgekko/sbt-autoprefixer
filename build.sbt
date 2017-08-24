@@ -28,4 +28,4 @@ overrideBuildResolvers := true
 
 // Plugins.
 // ---------------------------------------
-addSbtPlugin("com.typesafe.sbt" % "sbt-js-engine" % "1.2.1")
+addSbtPlugin("com.typesafe.sbt" % "sbt-js-engine" % "1.2.2")
