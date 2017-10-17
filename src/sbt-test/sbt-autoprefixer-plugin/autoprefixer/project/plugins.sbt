@@ -7,7 +7,5 @@ sys.props.get("plugin.version") match {
 resolvers ++= Seq(
    Resolver.defaultLocal,
    Resolver.mavenLocal,
-   Resolver.url("sbt snapshot plugins", url("http://repo.scala-sbt.org/scalasbt/sbt-plugin-snapshots"))(Resolver.ivyStylePatterns),
-   Resolver.sonatypeRepo("snapshots"),
-   "Typesafe Snapshots Repository" at "http://repo.typesafe.com/typesafe/snapshots/"
+   "Semlab Snapshots Repository" at "http://192.168.150.190:8081/nexus/content/repositories/snapshots/"
 )
