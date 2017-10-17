@@ -1,4 +1,4 @@
-package nl.semlab.sbt.autoprefixer
+package com.github.gpgekko.sbt.autoprefixer
 
 import java.nio.charset.Charset
 

@@ -2,7 +2,6 @@ import com.typesafe.sbt.web.SbtWeb
 import com.typesafe.sbt.web.SbtWeb.autoImport.WebJs._
 import com.typesafe.sbt.web.SbtWeb.autoImport._
 import JsEngineKeys._
-import nl.semlab.sbt.autoprefixer._
 import sbt.Keys._
 import sbt._
 
