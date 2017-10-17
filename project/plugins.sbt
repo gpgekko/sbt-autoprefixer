@@ -1,6 +1,7 @@
 logLevel := Level.Warn
 
-libraryDependencies += "org.scala-sbt" % "scripted-plugin" % sbtVersion.value
+
+libraryDependencies += "org.scala-sbt" %% "scripted-plugin" % sbtVersion.value
 
 
 // Release builder, automates a large part of the release procedure.
