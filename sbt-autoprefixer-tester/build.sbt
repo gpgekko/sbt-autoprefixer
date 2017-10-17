@@ -1,8 +1,8 @@
-import AutoprefixerKeys._
 import WebJs._
+import JsEngineKeys._
 
 lazy val root = (project in file(".")).enablePlugins(SbtWeb)
 
-JsEngineKeys.engineType := JsEngineKeys.EngineType.Node
+engineType in autoprefixer := EngineType.Node
 
 pipelineStages := Seq(autoprefixer)

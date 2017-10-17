@@ -1,6 +1,14 @@
+import com.typesafe.sbt.web.SbtWeb
+import com.typesafe.sbt.web.SbtWeb.autoImport.WebJs._
+import com.typesafe.sbt.web.SbtWeb.autoImport._
+import JsEngineKeys._
+import nl.semlab.sbt.autoprefixer._
+import sbt.Keys._
+import sbt._
+
 lazy val root = (project in file(".")).enablePlugins(SbtWeb)
 
-JsEngineKeys.engineType := JsEngineKeys.EngineType.Node
+engineType in autoprefixer := EngineType.Trireme
 
 pipelineStages := Seq(autoprefixer)
 
@@ -8,16 +16,7 @@ val checkCSSFileContents = taskKey[Unit]("check that css contents are correct")
 
 checkCSSFileContents := {
   val contents = IO.read(file("target/web/stage/css/test.css"))
-  if (!contents.contains("-webkit-transition")) {
-    sys.error(s"Unexpected contents: $contents")
-  }
-}
-
-val checkSourceMapFileContents = taskKey[Unit]("check that source map contents are correct")
-
-checkSourceMapFileContents := {
-  val contents = IO.read(file("target/web/stage/css/test.css.map"))
-  if (!contents.contains("test.css")) {
+  if (!contents.contains(":-webkit-full-screen")) {
     sys.error(s"Unexpected contents: $contents")
   }
 }
