@@ -11,7 +11,7 @@ engineType in autoprefixer := EngineType.Node
 
 pipelineStages := Seq(autoprefixer)
 
-browsers in autoprefixer := com.typesafe.sbt.web.js.JS.Array("safari 5")
+autoPrefixerBrowsers in autoprefixer := com.typesafe.sbt.web.js.JS.Array("safari 5")
 
 val checkCSSFileContents = taskKey[Unit]("check that css contents are correct")
 
