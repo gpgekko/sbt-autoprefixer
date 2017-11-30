@@ -8,7 +8,7 @@ import sbt._
 
 lazy val root = (project in file(".")).enablePlugins(SbtWeb)
 
-engineType in autoprefixer := EngineType.Trireme
+engineType in autoprefixer := EngineType.Node
 
 pipelineStages := Seq(autoprefixer)
 
