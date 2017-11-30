@@ -8,13 +8,13 @@ name := "sbt-autoprefixer"
 
 // Scala version to use.
 // ---------------------------------------
-crossSbtVersions := Seq("0.13.16", "1.0.2")
+crossSbtVersions := Seq("0.13.16", "1.0.4")
 
 
 // Library dependencies.
 // ---------------------------------------
 libraryDependencies ++= Seq(
-   "org.webjars.npm" % "autoprefixer" % "7.1.2",
+   "org.webjars.npm" % "autoprefixer" % "7.1.6",
    "org.webjars.npm" % "postcss-cli" % "4.1.1",
 
    "org.webjars.npm" % "semver" % "5.4.1",
