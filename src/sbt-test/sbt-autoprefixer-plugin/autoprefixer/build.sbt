@@ -2,12 +2,13 @@ import com.typesafe.sbt.web.SbtWeb
 import com.typesafe.sbt.web.SbtWeb.autoImport.WebJs._
 import com.typesafe.sbt.web.SbtWeb.autoImport._
 import JsEngineKeys._
+import nl.semlab.sbt.autoprefixer._
 import sbt.Keys._
 import sbt._
 
 lazy val root = (project in file(".")).enablePlugins(SbtWeb)
 
-engineType in autoprefixer := EngineType.Node
+engineType in autoprefixer := EngineType.Trireme
 
 pipelineStages := Seq(autoprefixer)
 
