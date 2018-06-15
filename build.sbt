@@ -15,7 +15,7 @@ crossSbtVersions := Seq("0.13.17", "1.1.6")
 // ---------------------------------------
 libraryDependencies ++= Seq(
    "org.webjars.npm" % "autoprefixer" % "7.1.6",
-   "org.webjars.npm" % "postcss-cli" % "4.1.1",
+   "org.webjars.npm" % "postcss-cli" % "4.1.1" exclude("org.webjars.npm", "validate-npm-package-license"),
 
    "org.webjars.npm" % "semver" % "5.5.0",
    "org.webjars.npm" % "block-stream" % "0.0.9",
