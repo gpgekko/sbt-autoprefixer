@@ -1,4 +1,5 @@
-sbtPlugin := true
+lazy val root = (project in file("."))
+      .enablePlugins(SbtPlugin)
 
 
 // Basic application information.
@@ -8,7 +9,7 @@ name := "sbt-autoprefixer"
 
 // Scala version to use.
 // ---------------------------------------
-crossSbtVersions := Seq("0.13.17", "1.1.6")
+crossSbtVersions := Seq("0.13.17", "1.2.0")
 
 
 // Library dependencies.
