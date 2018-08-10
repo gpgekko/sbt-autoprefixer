@@ -1,3 +1,5 @@
+import sbt.plugins.SbtPlugin
+
 lazy val root = (project in file("."))
       .enablePlugins(SbtPlugin)
 
@@ -9,7 +11,7 @@ name := "sbt-autoprefixer"
 
 // Scala version to use.
 // ---------------------------------------
-crossSbtVersions := Seq("0.13.17", "1.2.0")
+crossSbtVersions := Seq("0.13.17", "1.2.1")
 
 
 // Library dependencies.
