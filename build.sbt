@@ -1,4 +1,5 @@
 import sbt.URL
+import sbt.plugins.SbtPlugin
 
 lazy val root = (project in file("."))
       .enablePlugins(SbtPlugin)
@@ -16,7 +17,7 @@ startYear := Some(2016)
 
 // Scala version to use.
 // ---------------------------------------
-crossSbtVersions := Seq("0.13.17", "1.2.0")
+crossSbtVersions := Seq("0.13.17", "1.2.1")
 
 
 // Library dependencies.
