@@ -11,7 +11,7 @@ name := "sbt-autoprefixer"
 
 // Scala version to use.
 // ---------------------------------------
-crossSbtVersions := Seq("0.13.17", "1.2.1")
+crossSbtVersions := Seq("0.13.17", "1.2.4")
 
 
 // Library dependencies.
