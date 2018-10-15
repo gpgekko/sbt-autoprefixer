@@ -26,7 +26,7 @@ pipelineStages := Seq(autoprefixer)
 
 **Note:** if dependency resolving breaks on `org.webjars.npm.semver`, add the following line to the `project/plugins.sbt`:
 ```scala
-dependencyOverrides += "org.webjars.npm" % "semver" % "5.3.0"
+dependencyOverrides += "org.webjars.npm" % "semver" % "5.6.0"
 ```
 
 
