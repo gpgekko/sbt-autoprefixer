@@ -25,7 +25,7 @@ The following option are supported:
 
 Option              | Description
 --------------------|------------
-cascade           	| Creates nice visual cascade of prefixes. Default: true.
+cascade             | Creates nice visual cascade of prefixes. Default: true.
 sourceMap           | Enables source maps. Default: true.
 inlineSourceMap     | Enables inline source maps by data:uri to annotation comment. Default: false.
     
@@ -38,7 +38,7 @@ AutoprefixerKeys.inlineSourceMap in Assets := true
 To include all CSS files for post processing
 
 ```scala
-includeFilter in autoprefixer := GlobFilter("*.css"),
+includeFilter in autoprefixer := GlobFilter("*.css")
 ```
 
-If you receive duplicate map errors when using incombination with LESS, turn sourceMapping off
+If you receive duplicate map errors when using in combination with LESS, turn sourceMapping off
