@@ -45,7 +45,7 @@ dependencyOverrides += "org.webjars.npm" % "chokidar" % "1.7.0"
 
 // Plugins.
 // ---------------------------------------
-addSbtPlugin("com.typesafe.sbt" % "sbt-js-engine" % "1.2.2")
+addSbtPlugin("com.typesafe.sbt" % "sbt-js-engine" % "1.2.3")
 
 
 scriptedLaunchOpts ++= Seq("-Xmx1024M", s"-Dplugin.version=${version.value}")
