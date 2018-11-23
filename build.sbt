@@ -17,7 +17,7 @@ startYear := Some(2016)
 
 // Scala version to use.
 // ---------------------------------------
-crossSbtVersions := Seq("0.13.17", "1.2.4")
+crossSbtVersions := Seq("0.13.17", "1.2.6")
 
 
 // Library dependencies.
@@ -51,7 +51,7 @@ dependencyOverrides += "org.webjars.npm" % "chokidar" % "1.7.0"
 
 // Plugins.
 // ---------------------------------------
-addSbtPlugin("com.typesafe.sbt" % "sbt-js-engine" % "1.2.2")
+addSbtPlugin("com.typesafe.sbt" % "sbt-js-engine" % "1.2.3")
 
 
 // Scripted.
