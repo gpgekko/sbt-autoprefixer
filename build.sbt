@@ -11,7 +11,7 @@ name := "sbt-autoprefixer"
 
 // Scala version to use.
 // ---------------------------------------
-crossSbtVersions := Seq("0.13.17", "1.2.8")
+crossSbtVersions := Seq("0.13.18", "1.2.8")
 
 
 // Library dependencies.
@@ -23,7 +23,7 @@ libraryDependencies ++= Seq(
                                                 exclude("org.webjars.npm", "atob"),
 
    // Some dependencies either fail to resolve or have newer versions that have dependencies that are not available.
-   "org.webjars.npm" % "semver" % "5.6.0",
+   "org.webjars.npm" % "semver" % "5.7.0",
    "org.webjars.npm" % "block-stream" % "0.0.9",
    "org.webjars.npm" % "validate-npm-package-license" % "3.0.1",
    "org.webjars.npm" % "object.omit" % "2.0.1-1",
@@ -33,7 +33,7 @@ libraryDependencies ++= Seq(
    "org.webjars.npm" % "chokidar" % "1.7.0" exclude("org.webjars.npm", "anymatch") exclude("org.webjars.npm", "readdirp")
 )
 
-dependencyOverrides += "org.webjars.npm" % "semver" % "5.6.0"
+dependencyOverrides += "org.webjars.npm" % "semver" % "5.7.0"
 dependencyOverrides += "org.webjars.npm" % "block-stream" % "0.0.9"
 dependencyOverrides += "org.webjars.npm" % "validate-npm-package-license" % "3.0.1"
 dependencyOverrides += "org.webjars.npm" % "object.omit" % "2.0.1-1"
