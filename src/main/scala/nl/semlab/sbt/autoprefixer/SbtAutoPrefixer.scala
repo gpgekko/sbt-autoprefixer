@@ -87,7 +87,6 @@ object SbtAutoPrefixer extends AutoPlugin {
 
       val options = Seq(
          browsersValue,
-         configValue,
          excludeFilterValue,
          includeFilterValue,
          replaceValue,
