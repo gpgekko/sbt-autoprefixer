@@ -22,6 +22,8 @@ libraryDependencies ++= Seq(
                                                 exclude("org.webjars.npm", "chokidar")
                                                 exclude("org.webjars.npm", "atob"),
 
+   "io.monix" %% "monix" % "2.3.3",
+
    // Some dependencies either fail to resolve or have newer versions that have dependencies that are not available.
    "org.webjars.npm" % "semver" % "5.7.0",
    "org.webjars.npm" % "block-stream" % "0.0.9",
