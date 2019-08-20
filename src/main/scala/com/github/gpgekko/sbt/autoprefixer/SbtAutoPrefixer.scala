@@ -5,16 +5,19 @@ import java.nio.charset.Charset
 import com.typesafe.sbt.jse.SbtJsEngine
 import com.typesafe.sbt.jse.SbtJsTask
 import com.typesafe.sbt.web.PathMapping
+import com.typesafe.sbt.web.SbtWeb
+import com.typesafe.sbt.web.incremental
 import com.typesafe.sbt.web.incremental._
 import com.typesafe.sbt.web.js.JS
 import com.typesafe.sbt.web.pipeline.Pipeline
-import com.typesafe.sbt.web.SbtWeb
-import com.typesafe.sbt.web.incremental
-import Compat.cacheStore
-import Compat.SbtIoPath._
+import monix.reactive.Observable
+import nl.semlab.sbt.autoprefixer.Compat.SbtIoPath._
+import nl.semlab.sbt.autoprefixer.Compat.cacheStore
 import sbt.Keys._
 import sbt.Task
 import sbt._
+
+import scala.concurrent.Await
 
 object Import {
    val autoprefixer        : TaskKey[Pipeline.Stage] = taskKey[Pipeline.Stage]("Autoprefixes CSS files.")
@@ -53,6 +56,8 @@ object SbtAutoPrefixer extends AutoPlugin {
       autoPrefixerReplace := true
    )
 
+   private case class PrefixerOpGrouping(inputFiles: Seq[PathMapping], outputFile: String)
+
    private def dotMin(file: String): String = {
       val exti = file.lastIndexOf('.')
       val (pfx, ext) = if (exti == -1) (file, "") else file.splitAt(exti)
@@ -87,7 +92,6 @@ object SbtAutoPrefixer extends AutoPlugin {
 
       val options = Seq(
          browsersValue,
-         configValue,
          excludeFilterValue,
          includeFilterValue,
          replaceValue,
@@ -106,44 +110,47 @@ object SbtAutoPrefixer extends AutoPlugin {
          val appInputMappings = optimizerMappings.map(p => inputDirectoryValue / p._2 -> p._2)
          val groupings = appInputMappings.map(fp => {
             if(replaceValue) {
-               (Seq(fp), fp._2)
+               PrefixerOpGrouping(Seq(fp), fp._2)
             } else {
-               (Seq(fp), dotMin(fp._2))
+               PrefixerOpGrouping(Seq(fp), dotMin(fp._2))
             }
          })
 
          val targetBuildProfileFile = resourceManagedValue / ".postcssrc"
          IO.write(targetBuildProfileFile, configValue.js, Charset.forName("UTF-8"))
 
-         implicit val opInputHasher: OpInputHasher[(Seq[(File, String)], String)] = OpInputHasher[(Seq[PathMapping], String)](io =>
-                              OpInputHash.hashString((io._2 +: io._1.map(_._1.getAbsolutePath)).mkString("|") + "|" + options))
+         implicit val opInputHasher: OpInputHasher[PrefixerOpGrouping] = OpInputHasher[PrefixerOpGrouping](io =>
+            OpInputHash.hashString(
+               (io.outputFile +: io.inputFiles.map(_._1.getAbsolutePath)).mkString("|") + "|" + options
+            )
+         )
 
-         val (outputFiles, ()) = incremental.syncIncremental(streamsValue.cacheDirectory / "run", groupings) { modifiedGroupings: Seq[(Seq[(File, String)], String)] =>
+         val (outputFiles, ()) = incremental.syncIncremental(streamsValue.cacheDirectory / "run", groupings) { modifiedGroupings: Seq[PrefixerOpGrouping] =>
             if (modifiedGroupings.nonEmpty) {
                streamsValue.log.info(s"Optimizing ${modifiedGroupings.size} CSS file(s) with Autoprefixer")
 
                val nodeModulePaths = nodeModuleDirectoriesValue.map(_.getPath)
                val cli = webJarsNodeModulesDirectoryValue / "postcss-cli" / "bin" / "postcss"
 
-               def executeAutoPrefixer(args: Seq[String]) = SbtJsTask.executeJs(
-                  stateValue.copy(),
-                  engineTypeValue,
-                  commandValue,
-                  nodeModulePaths,
-                  cli,
-                  args: Seq[String],
-                  timeoutPerSourceValue
-               )
+               def executeAutoPrefixer(args: Seq[String]) = monix.eval.Task {
+                  SbtJsTask.executeJs(
+                     stateValue.copy(),
+                     engineTypeValue,
+                     commandValue,
+                     nodeModulePaths,
+                     cli,
+                     args: Seq[String],
+                     timeoutPerSourceValue
+                  )
+               }
 
                val prefixerArgs = Seq("-c", targetBuildProfileFile.getAbsolutePath, "--use", "autoprefixer")
 
-               (modifiedGroupings.map { grouping =>
-                  val (inputMappings, outputPath) = grouping
-
-                  val inputFiles = inputMappings.map(_._1)
+               val resultObservable: Observable[(PrefixerOpGrouping, OpResult)] = Observable.fromIterable(modifiedGroupings).map { grouping =>
+                  val inputFiles = grouping.inputFiles.map(_._1)
                   val inputFileArgs = inputFiles.map(_.getPath)
 
-                  val outputFile = buildDirectoryValue / outputPath
+                  val outputFile = buildDirectoryValue / grouping.outputFile
                   val outputFileArgs = Seq(
                      "--output",
                      outputFile.getPath
@@ -153,12 +160,24 @@ object SbtAutoPrefixer extends AutoPlugin {
                              outputFileArgs ++
                              inputFileArgs
 
-                  val success = executeAutoPrefixer(args).headOption.fold(true)(_ => false)
-                  grouping -> (
-                     if(success) OpSuccess(inputFiles.toSet, Set(outputFile))
-                     else OpFailure
-                  )
-               }.toMap, ())
+                  executeAutoPrefixer(args).map { result =>
+                     val success = result.headOption.fold(true)(_ => false)
+                     grouping -> (
+                        if(success) OpSuccess(inputFiles.toSet, Set(outputFile))
+                        else OpFailure
+                     )
+                  }
+               }.mergeMap(task => Observable.fromTask(task))
+
+               val prefixerPool = monix.execution.Scheduler.computation(
+                  parallelism = java.lang.Runtime.getRuntime.availableProcessors
+               )
+               val result = Await.result(
+                  resultObservable.toListL.runAsync(prefixerPool),
+                  timeoutPerSourceValue * modifiedGroupings.size
+               )
+
+               (result.toMap, ())
             } else {
                (Map.empty, ())
             }
