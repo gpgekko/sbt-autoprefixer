@@ -11,8 +11,8 @@ import com.typesafe.sbt.web.incremental._
 import com.typesafe.sbt.web.js.JS
 import com.typesafe.sbt.web.pipeline.Pipeline
 import monix.reactive.Observable
-import nl.semlab.sbt.autoprefixer.Compat.SbtIoPath._
-import nl.semlab.sbt.autoprefixer.Compat.cacheStore
+import Compat.SbtIoPath._
+import Compat.cacheStore
 import sbt.Keys._
 import sbt.Task
 import sbt._
